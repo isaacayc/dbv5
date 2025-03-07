@@ -1,0 +1,663 @@
+/* Transaction Page 特定样式 */
+
+/* 面包屑导航 */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.breadcrumb a {
+    color: #3470e4;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb i {
+    margin: 0 10px;
+    font-size: 12px;
+    color: #999;
+}
+
+/* 交易详情头部 */
+.transaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.transaction-title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-title-container h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.transaction-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-badge {
+    background-color: #f0f7ff;
+    color: #3470e4;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.transaction-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.edit-mode-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.edit-mode-btn.active {
+    background-color: #e9f5ff;
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.transaction-actions .btn {
+    margin-left: 0;
+}
+
+/* 月份选择器网格 */
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 10px;
+}
+
+.month-grid .month-item {
+    padding: 8px 12px;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.month-grid .month-item:hover {
+    background-color: #f5f7fa;
+}
+
+.month-grid .month-item.selected {
+    background-color: #f0f7ff;
+    color: #3470e4;
+    font-weight: 500;
+}
+
+/* 表格样式 */
+#transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#transaction-table th, 
+#transaction-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#transaction-table th {
+    background-color: #f9fafc;
+    color: #66758c;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+#transaction-table tr:hover {
+    background-color: #f9fafc;
+}
+
+#transaction-table tr.highlight {
+    background-color: #f0f7ff;
+}
+
+/* Policy列的绿色对勾 */
+.policy-check {
+    color: #28a745;
+    margin-right: 8px;
+}
+
+/* 未匹配政策图标 */
+.policy-unmatched {
+    color: #8a2be2; /* 紫色 */
+    margin-right: 8px;
+}
+
+/* 状态标签 */
+.status-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-tag.matched {
+    background-color: #e6f7ee;
+    color: #27ae60;
+}
+
+.status-tag.unmatched {
+    background-color: #fff8e6;
+    color: #f39c12;
+}
+
+/* 操作按钮 */
+.action-btn {
+    background: none;
+    border: none;
+    color: #3470e4;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.action-btn:hover {
+    color: #1e5bb0;
+}
+
+/* 筛选标签 */
+.filter-tag {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    transition: background-color 0.2s;
+}
+
+.filter-tag:hover {
+    background-color: #f0f0f0;
+}
+
+.filter-tag.active {
+    background-color: #e6f7ff;
+    border-color: #91d5ff;
+    color: #1890ff;
+}
+
+.filter-tag i {
+    margin-left: 5px;
+    font-size: 12px;
+    color: #999;
+}
+
+/* 编辑模式 */
+body.edit-mode .table-row {
+    cursor: text;
+}
+
+body.edit-mode .table-row:hover {
+    background-color: #fffde7;
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+    .transaction-header {
+        flex-direction: column;
+    }
+    
+    .transaction-actions {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .transaction-title-container {
+        width: 100%;
+    }
+    
+    .transaction-subtitle {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .stats-section {
+        flex-direction: column;
+    }
+    
+    .stat-item {
+        margin-bottom: 10px;
+    }
+}
+
+/* 月份选择器容器样式 */
+.month-selector-container {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.month-label {
+    color: #777;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+/* 表格头部操作按钮区域 */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.table-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* 列设置按钮样式 */
+.column-settings-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.column-settings-btn:hover {
+    background-color: #e9ecef;
+}
+
+/* 通知样式 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.notification i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.notification.success i {
+    color: #28a745;
+}
+
+.notification.error i {
+    color: #dc3545;
+}
+
+.notification.info i {
+    color: #17a2b8;
+}
+
+.notification.warning i {
+    color: #ffc107;
+}
+
+/* 操作菜单样式 */
+.action-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.action-dots {
+    cursor: pointer;
+    padding: 5px;
+    color: #6c757d;
+}
+
+.action-dots:hover {
+    color: #343a40;
+}
+
+.action-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    min-width: 150px;
+    z-index: 10;
+    display: none;
+}
+
+.action-menu.active .action-dropdown {
+    display: block;
+}
+
+.action-item {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.action-item:hover {
+    background-color: #f8f9fa;
+}
+
+.action-item i {
+    margin-right: 8px;
+    color: #dc3545;
+}
+
+/* 状态行样式 */
+.matched-row {
+    background-color: rgba(40, 167, 69, 0.05);
+}
+
+.unmatched-row {
+    background-color: rgba(255, 193, 7, 0.05);
+}
+
+/* 数字列样式 */
+.numeric {
+    text-align: right;
+}
+
+/* 开关按钮样式 */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.toggle-label {
+    margin-right: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #3470e4;
+}
+
+input:focus + .toggle-slider {
+    box-shadow: 0 0 1px #3470e4;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 5px;
+    width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title i {
+    cursor: pointer;
+}
+
+.column-option {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.column-option:last-child {
+    border-bottom: none;
+}
+
+.column-checkbox {
+    margin-right: 15px;
+}
+
+.modal-footer {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.btn {
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #6a0dad; /* 紫色 */
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #5a0c93; /* 深紫色，悬停时变暗 */
+}
+
+.btn-default {
+    background-color: #f0f3f8;
+    color: #666;
+    margin-right: 10px;
+}
+
+/* 新增条目按钮样式 */
+.new-entries-container {
+    margin: 15px 0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.btn-add {
+    background-color: #f8f9fa;
+    border: 1px dashed #3470e4;
+    color: #3470e4;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+.btn-add:hover {
+    background-color: #e9f5ff;
+}
+
+.btn-add i {
+    font-size: 12px;
+}
+
+/* 表格总计行样式 */
+#table-totals {
+    font-weight: 600;
+    border-top: 2px solid #e0e0e0;
+    background-color: #f8f9fa;
+}
+
+#table-totals td {
+    padding: 12px 15px;
+}
+
+#table-totals .total-label {
+    text-align: right;
+    padding-right: 15px;
+}
+
+/* 分页控制 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px 0;
+}
+
+.pagination button {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    color: #495057;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #e9ecef;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination button i {
+    margin-right: 5px;
+}
+
+.pagination button:last-child i {
+    margin-right: 0;
+    margin-left: 5px;
+}
+
+.page-info {
+    margin: 0 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.page-size {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.page-size label {
+    margin-right: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.page-size select {
+    padding: 5px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* 增加 Post 按钮的尺寸 */
+#postBtn {
+    padding: 8px 20px;
+    font-size: 20px;
+    font-weight: 500;
+    height: auto;
+    min-width: 100px;
+} 

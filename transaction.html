@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Details - 数据对账平台</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="db_platform_prototype.css">
+    <link rel="stylesheet" href="transaction.css">
+    <link rel="stylesheet" href="matching-panel.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <a href="dashboard.html" class="logo">
+                <!-- 移除 ResourcePro 文字 -->
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <i class="fas fa-chart-pie"></i>
+            <span>Dashboard</span>
+        </div>
+        <div class="sidebar-item active">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>Statement</span>
+        </div>
+        <div class="sidebar-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Reporting</span>
+        </div>
+        <div class="sidebar-item">
+            <i class="fas fa-user-shield"></i>
+            <span>Admin</span>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="header">
+            <div class="company-header">
+                <img src="Company Logo.png" alt="Company Logo" class="company-logo">
+                <div class="company-info">US ABC Company</div>
+            </div>
+            <div class="user-info">
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi</span>
+                </div>
+                <div class="user-info-container">
+                    <div class="user-name">Betty Xu</div>
+                    <button class="sign-out-btn"><i class="fas fa-power-off"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-container">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <a href="db_platform_prototype.html" onclick="sessionStorage.setItem('fromTransaction', 'true'); return true;">Statements</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Transaction Details</span>
+            </div>
+            
+            <!-- 交易详情头部 -->
+            <div class="transaction-header">
+                <div class="transaction-title-container">
+                    <h1 id="carrier-title">Carrier Name | File Name</h1>
+                    <div class="transaction-subtitle">
+                        <div class="stat-badge">
+                            <span id="unmatched-count">12 Unmatched</span>
+                        </div>
+                        <div class="month-selector-container">
+                            <span class="month-label">Acct. month</span>
+                            <div class="month-selector" id="monthSelector">
+                                <div class="month-display">
+                                    <span id="currentMonth">Jan 2025</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="month-dropdown" id="monthDropdown">
+                                    <div class="month-grid">
+                                        <div class="month-item" data-month="1" data-year="2025">Jan 2025</div>
+                                        <div class="month-item" data-month="2" data-year="2025">Feb 2025</div>
+                                        <div class="month-item" data-month="3" data-year="2025">Mar 2025</div>
+                                        <div class="month-item" data-month="4" data-year="2025">Apr 2025</div>
+                                        <div class="month-item" data-month="5" data-year="2025">May 2025</div>
+                                        <div class="month-item" data-month="6" data-year="2025">Jun 2025</div>
+                                        <div class="month-item" data-month="7" data-year="2025">Jul 2025</div>
+                                        <div class="month-item" data-month="8" data-year="2025">Aug 2025</div>
+                                        <div class="month-item" data-month="9" data-year="2025">Sep 2025</div>
+                                        <div class="month-item" data-month="10" data-year="2025">Oct 2025</div>
+                                        <div class="month-item" data-month="11" data-year="2025">Nov 2025</div>
+                                        <div class="month-item" data-month="12" data-year="2025">Dec 2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transaction-actions">
+                    <button class="btn btn-primary" id="postBtn">
+                        <i class="fas fa-check-circle"></i> Post
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 交易统计信息 -->
+            <div class="stats-section">
+                <div class="stat-item">
+                    <div class="stat-label">Total Transactions</div>
+                    <div class="stat-value" id="total-transactions">156</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Matched Transactions</div>
+                    <div class="stat-value" id="matched-transactions">144</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Total Premium</div>
+                    <div class="stat-value" id="total-premium">$9,356.80</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Total Commission</div>
+                    <div class="stat-value" id="total-commission">$1,403.52</div>
+                </div>
+            </div>
+            
+            <!-- 交易表格 -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>Transaction List</h2>
+                    <div class="table-actions">
+                        <div class="toggle-container">
+                            <span class="toggle-label">Edit Mode</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="editModeBtn">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <button class="column-settings-btn" id="settingsIcon">
+                            <i class="fas fa-cog"></i> Column Settings
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 筛选区域 -->
+                <div class="filter-container">
+                    <div class="filter-label">FILTERS</div>
+                    <div class="filter-tags">
+                        <div class="filter-tag">Non-zero commissions <i class="fas fa-chevron-down"></i></div>
+                        <div class="filter-tag">Status <i class="fas fa-chevron-down"></i></div>
+                        <div class="filter-tag">Policy Tags <i class="fas fa-chevron-down"></i></div>
+                    </div>
+                </div>
+                
+                <div class="table-content">
+                    <table id="transaction-table">
+                        <thead>
+                            <tr>
+                                <!-- 表头将通过JavaScript动态生成 -->
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTableBody">
+                            <!-- 表格数据将通过JavaScript动态生成 -->
+                        </tbody>
+                        <tfoot>
+                            <tr id="table-totals">
+                                <!-- 总计行将通过JavaScript动态生成 -->
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                
+                <!-- 新增条目按钮 -->
+                <div class="new-entries-container">
+                    <button class="btn btn-add" id="addEntriesBtn">
+                        <i class="fas fa-plus"></i> New Entries
+                    </button>
+                </div>
+                
+                <!-- 分页控制 -->
+                <div class="pagination">
+                    <button id="prev-page" disabled><i class="fas fa-chevron-left"></i> Previous</button>
+                    <span class="page-info">Page <span id="current-page">1</span> of <span id="total-pages">1</span></span>
+                    <button id="next-page"><i class="fas fa-chevron-right"></i> Next</button>
+                    <div class="page-size">
+                        <label for="rows-per-page">Show per page:</label>
+                        <select id="rows-per-page">
+                            <option value="25" selected>25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 列设置弹窗 -->
+    <div class="modal" id="column-settings-modal">
+        <div class="modal-content">
+            <div class="modal-title">
+                <span>Customize table view</span>
+                <i class="fas fa-times" id="close-column-settings"></i>
+            </div>
+            <div class="column-options">
+                <div class="column-option">
+                    <input type="checkbox" class="column-checkbox" id="col-customer" checked>
+                    <label for="col-customer">Customer</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" class="column-checkbox" id="col-policy" checked>
+                    <label for="col-policy">Policy</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" class="column-checkbox" id="col-effective-date" checked>
+                    <label for="col-effective-date">Effective Date</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" class="column-checkbox" id="col-transaction-date" checked>
+                    <label for="col-transaction-date">Transaction Date</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" class="column-checkbox" id="col-lob" checked>
+                    <label for="col-lob">LOB</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" class="column-checkbox" id="col-premium" checked>
+                    <label for="col-premium">Premium</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" class="column-checkbox" id="col-commission" checked>
+                    <label for="col-commission">Commission</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" class="column-checkbox" id="col-actions" checked>
+                    <label for="col-actions">Actions</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" id="reset-column-settings">Reset</button>
+                <button class="btn btn-primary" id="apply-column-settings">Apply</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 加载中遮罩 -->
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- 匹配面板 -->
+    <div class="matching-panel" id="matchingPanel">
+        <div class="matching-panel-header">
+            <div class="matching-panel-title">
+                <h2>Matching Details</h2>
+            </div>
+            <button class="matching-panel-close" id="closeMatchingPanel">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="matching-panel-content">
+            <!-- 客户信息和状态区域 -->
+            <div class="matching-panel-top">
+                <div class="matching-panel-customer">
+                    <div class="customer-name" id="matchingCustomerName">Greenland Dig, Inc</div>
+                    <div class="policy-date-row">
+                        <div class="policy-number" id="matchingPolicyNumber">CK524125</div>
+                        <div class="effective-date" id="matchingUploadedDate">Mar 23, 2025</div>
+                    </div>
+                    <div class="add-tags-row">
+                        <i class="fas fa-tag"></i>
+                        <span class="add-tags-text">Add Tags</span>
+                    </div>
+                </div>
+                <div class="status-badge matched" id="matchingStatus">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Matched</span>
+                </div>
+            </div>
+            
+            <!-- 匹配的保单信息 -->
+            <div class="matched-policy-section">
+                <div class="matched-policy-header">
+                    <h3>Matched Policy</h3>
+                </div>
+                <div class="matched-policy-content">
+                    <div class="matched-policy-number" id="matchedPolicyNumber">
+                        <i class="fas fa-check-circle policy-check"></i>
+                        <span>CK524125</span>
+                    </div>
+                    <a href="#" class="unmatch-link" id="unmatchLink">Unmatch</a>
+                </div>
+            </div>
+            
+            <!-- 记住匹配选项 -->
+            <div class="remember-match-option">
+                <div class="remember-match-label">Remember this match for future transactions</div>
+                <div class="toggle-container">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="rememberMatch">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 数据比较选项卡 -->
+            <div class="data-comparison-tabs">
+                <div class="tab active" data-tab="data-comparison">Data Comparison</div>
+                <div class="tab" data-tab="policy-details">Policy Details</div>
+            </div>
+            
+            <!-- 数据比较说明 -->
+            <div class="data-comparison-description">
+                <strong>Data Comparison</strong>
+                <p>Review and edit data under 'statement', which will be posted to your AMS</p>
+            </div>
+            
+            <!-- 选项卡内容 -->
+            <div class="tab-content">
+                <!-- 数据比较选项卡 -->
+                <div class="tab-pane active" id="data-comparison-tab">
+                    <div class="comparison-columns">
+                        <!-- AMS Match 列 -->
+                        <div class="comparison-column">
+                            <div class="comparison-column-header">
+                                <h3>AMS Match</h3>
+                                <button class="btn btn-sync">
+                                    <i class="fas fa-sync-alt"></i> Sync with AMS
+                                </button>
+                            </div>
+                            <div class="comparison-column-content">
+                                <div class="matching-field">
+                                    <div class="field-label">Client Name / Insured Name</div>
+                                    <div class="field-value" id="amsClientName">Greenland Dig, Inc</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Client Code / Account Code</div>
+                                    <div class="field-value" id="amsClientCode">GDI-2023</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Policy Number</div>
+                                    <div class="field-value" id="amsPolicyNumber">CK524125</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Policy Effective Date</div>
+                                    <div class="field-value" id="amsPolicyEffectiveDate">3/5/2025</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Policy Expiration Date</div>
+                                    <div class="field-value" id="amsPolicyExpirationDate">3/5/2026</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Coverage Code</div>
+                                    <div class="field-value" id="amsCoverageCode">DEN-01</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Carrier</div>
+                                    <div class="field-value" id="amsCarrier">US ABC Company</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Statement Data 列 -->
+                        <div class="comparison-column">
+                            <div class="comparison-column-header">
+                                <h3>Statement Data</h3>
+                            </div>
+                            <div class="comparison-column-content">
+                                <div class="matching-field">
+                                    <div class="field-label">Client Name / Insured Name</div>
+                                    <div class="field-value" id="statementClientName">Greenland Dig, Inc</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Policy Number</div>
+                                    <div class="field-value" id="statementPolicyNumber">CK524125</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Policy Effective Date</div>
+                                    <div class="field-value" id="statementPolicyEffectiveDate">3/5/2025</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Policy Expiration Date</div>
+                                    <div class="field-value" id="statementPolicyExpirationDate">3/5/2026</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">LOB/Plan Type</div>
+                                    <div class="field-value" id="statementLOB">Dental</div>
+                                </div>
+                                <div class="matching-field">
+                                    <div class="field-label">Carrier name</div>
+                                    <div class="field-value" id="statementCarrier">US ABC Company</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 保单详情选项卡 -->
+                <div class="tab-pane" id="policy-details-tab">
+                    <div class="policy-details-content">
+                        <h3>Policy Details Content</h3>
+                        <p>Detailed information about the policy will be displayed here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="matching-panel-actions">
+                <button class="btn btn-default" id="unmatchBtn">Unmatch</button>
+                <button class="btn btn-primary" id="confirmMatchBtn">Confirm Match</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Unmatch 确认弹窗 -->
+    <div class="unmatch-modal" id="unmatchModal">
+        <div class="unmatch-modal-content">
+            <div class="unmatch-modal-header">
+                <div class="customer-info">
+                    <span id="customerName"></span>
+                </div>
+                <button class="unmatch-modal-close" id="closeUnmatchModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="unmatch-modal-body">
+                <!-- 搜索框 -->
+                <div class="search-container">
+                    <div class="search-input-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search">
+                    </div>
+                </div>
+                
+                <!-- 数据比较标题 -->
+                <div class="data-comparison-title">
+                    <h3>Data Comparison</h3>
+                    <p>Review and edit data under 'statement', which will be posted to your AMS</p>
+                </div>
+                
+                <div class="unmatch-sections">
+                    <div class="suggested-matches">
+                        <h3>Suggested AMS Matches</h3>
+                        <div class="match-items-container">
+                            <!-- 匹配项 (当前选中) -->
+                            <div class="match-item selected">
+                                <div class="match-details">
+                                    <div class="match-field">
+                                        <label>Policy Number:</label>
+                                        <span id="suggestedPolicyNumber"></span>
+                                    </div>
+                                    <div class="match-field">
+                                        <label>Effective Date:</label>
+                                        <span id="suggestedEffectiveDate"></span>
+                                    </div>
+                                    <div class="match-field">
+                                        <label>Expiration Date:</label>
+                                        <span id="suggestedExpirationDate"></span>
+                                    </div>
+                                    <div class="match-field">
+                                        <label>Carrier:</label>
+                                        <span id="suggestedCarrier"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="statement-data">
+                        <h3>Statement Data</h3>
+                        <div class="match-details">
+                            <div class="match-field">
+                                <label>Client Name:</label>
+                                <span id="statementClientName"></span>
+                            </div>
+                            <div class="match-field">
+                                <label>Policy Number:</label>
+                                <span id="statementPolicyNumber"></span>
+                            </div>
+                            <div class="match-field">
+                                <label>Effective Date:</label>
+                                <span id="statementEffectiveDate"></span>
+                            </div>
+                            <div class="match-field">
+                                <label>Expiration Date:</label>
+                                <span id="statementExpirationDate"></span>
+                            </div>
+                            <div class="match-field">
+                                <label>LOB:</label>
+                                <span id="statementLOB"></span>
+                            </div>
+                            <div class="match-field">
+                                <label>Carrier:</label>
+                                <span id="statementCarrier"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="unmatch-modal-footer">
+                <button class="btn btn-default" id="cancelUnmatch">Cancel</button>
+                <button class="btn btn-primary" id="confirmUnmatch">Unmatch</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="transaction.js"></script>
+</body>
+</html> 

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Matching - 数据对账平台</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="db_platform_prototype.css">
+    <link rel="stylesheet" href="transaction.css">
+    <style>
+        .matching-container {
+            background-color: white;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .matching-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .matching-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .matching-section {
+            margin-bottom: 30px;
+        }
+        
+        .matching-section h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #3470e4;
+        }
+        
+        .matching-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .matching-table th, 
+        .matching-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .matching-table th {
+            background-color: #f9fafc;
+            color: #66758c;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        .match-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .match-status.matched {
+            background-color: #e6f7ee;
+            color: #27ae60;
+        }
+        
+        .match-status.unmatched {
+            background-color: #fff8e6;
+            color: #f39c12;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .action-buttons .btn {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <a href="dashboard.html" class="logo">
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <i class="fas fa-chart-pie"></i>
+            <span>Dashboard</span>
+        </div>
+        <div class="sidebar-item active">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>Statement</span>
+        </div>
+        <div class="sidebar-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Reporting</span>
+        </div>
+        <div class="sidebar-item">
+            <i class="fas fa-user-shield"></i>
+            <span>Admin</span>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="header">
+            <div class="company-header">
+                <img src="Company Logo.png" alt="Company Logo" class="company-logo">
+                <div class="company-info">US ABC Company</div>
+            </div>
+            <div class="user-info">
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi</span>
+                </div>
+                <div class="user-info-container">
+                    <div class="user-name">Betty Xu</div>
+                    <button class="sign-out-btn"><i class="fas fa-power-off"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-container">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <a href="db_platform_prototype.html">Statements</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="javascript:history.back()">Transaction Details</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Transaction Matching</span>
+            </div>
+            
+            <!-- 交易匹配详情 -->
+            <div class="matching-container">
+                <div class="matching-header">
+                    <div class="matching-title">Transaction Matching Details</div>
+                    <div class="match-status" id="overall-status">
+                        <span class="match-status unmatched">Unmatched</span>
+                    </div>
+                </div>
+                
+                <!-- 交易信息 -->
+                <div class="matching-section">
+                    <h3>Transaction Information</h3>
+                    <table class="matching-table">
+                        <tr>
+                            <th>Customer</th>
+                            <td id="customer-name">Smith Insurance Agency</td>
+                            <th>Policy</th>
+                            <td id="policy-number">POL-123456</td>
+                        </tr>
+                        <tr>
+                            <th>Effective Date</th>
+                            <td id="effective-date">2025-01-15</td>
+                            <th>LOB</th>
+                            <td id="lob">Auto</td>
+                        </tr>
+                        <tr>
+                            <th>Premium</th>
+                            <td id="premium">$1,250.00</td>
+                            <th>Commission</th>
+                            <td id="commission">$187.50</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- 匹配结果 -->
+                <div class="matching-section">
+                    <h3>Matching Results</h3>
+                    <table class="matching-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Statement Value</th>
+                                <th>System Value</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Customer</td>
+                                <td>Smith Insurance Agency</td>
+                                <td>Smith Insurance Agency</td>
+                                <td><span class="match-status matched">Matched</span></td>
+                            </tr>
+                            <tr>
+                                <td>Policy</td>
+                                <td>POL-123456</td>
+                                <td>POL-123456</td>
+                                <td><span class="match-status matched">Matched</span></td>
+                            </tr>
+                            <tr>
+                                <td>Effective Date</td>
+                                <td>2025-01-15</td>
+                                <td>2025-01-15</td>
+                                <td><span class="match-status matched">Matched</span></td>
+                            </tr>
+                            <tr>
+                                <td>LOB</td>
+                                <td>Auto</td>
+                                <td>Auto</td>
+                                <td><span class="match-status matched">Matched</span></td>
+                            </tr>
+                            <tr>
+                                <td>Premium</td>
+                                <td>$1,250.00</td>
+                                <td>$1,250.00</td>
+                                <td><span class="match-status matched">Matched</span></td>
+                            </tr>
+                            <tr>
+                                <td>Commission</td>
+                                <td>$187.50</td>
+                                <td>$175.00</td>
+                                <td><span class="match-status unmatched">Unmatched</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div class="action-buttons">
+                    <button class="btn secondary" onclick="history.back()">返回</button>
+                    <button class="btn" id="accept-btn">接受差异</button>
+                    <button class="btn btn-primary" id="resolve-btn">解决差异</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const transactionId = urlParams.get('id');
+            
+            // 设置页面标题
+            document.title = `Transaction #${transactionId} - Matching`;
+            
+            // 初始化按钮事件
+            document.getElementById('accept-btn').addEventListener('click', function() {
+                alert('已接受差异');
+                history.back();
+            });
+            
+            document.getElementById('resolve-btn').addEventListener('click', function() {
+                alert('差异已解决');
+                document.querySelector('.match-status.unmatched').className = 'match-status matched';
+                document.querySelector('.match-status.unmatched').textContent = 'Matched';
+                document.getElementById('overall-status').innerHTML = '<span class="match-status matched">Matched</span>';
+            });
+        });
+    </script>
+</body>
+</html> 

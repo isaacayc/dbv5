@@ -1,0 +1,101 @@
+<!-- 匹配面板 -->
+<div class="matching-panel" id="matchingPanel">
+    <div class="matching-panel-header">
+        <div class="matching-panel-title">
+            <h2>Matching Details</h2>
+        </div>
+        <button class="matching-panel-close" id="closeMatchingPanel">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <div class="matching-panel-content">
+        <div class="matching-panel-customer">
+            <div class="customer-name" id="matchingCustomerName">Greenland Dig, Inc</div>
+            <div class="policy-number" id="matchingPolicyNumber">CK524125</div>
+            <div class="uploaded-date" id="matchingUploadedDate">Mar 23, 2025</div>
+        </div>
+        
+        <div class="matching-panel-status">
+            <div class="status-badge matched" id="matchingStatus">
+                <i class="fas fa-check-circle"></i>
+                <span>Matched</span>
+            </div>
+        </div>
+        
+        <div class="matching-sections">
+            <div class="matching-section">
+                <div class="matching-section-header">
+                    <h3>AMS Match</h3>
+                </div>
+                <div class="matching-section-content">
+                    <div class="matching-field">
+                        <div class="field-label">Client Name / Insured Name</div>
+                        <div class="field-value" id="amsClientName">Greenland Dig, Inc</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Client Code / Account Code</div>
+                        <div class="field-value" id="amsClientCode">GDI-2023</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Policy Number</div>
+                        <div class="field-value" id="amsPolicyNumber">CK524125</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Policy Effective Date</div>
+                        <div class="field-value" id="amsPolicyEffectiveDate">3/5/2025</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Policy Expiration Date</div>
+                        <div class="field-value" id="amsPolicyExpirationDate">3/5/2026</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Coverage Code</div>
+                        <div class="field-value" id="amsCoverageCode">DEN-01</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Carrier</div>
+                        <div class="field-value" id="amsCarrier">US ABC Company</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="matching-section">
+                <div class="matching-section-header">
+                    <h3>Statement Data</h3>
+                </div>
+                <div class="matching-section-content">
+                    <div class="matching-field">
+                        <div class="field-label">Client Name / Insured Name</div>
+                        <div class="field-value" id="statementClientName">Greenland Dig, Inc</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Policy Number</div>
+                        <div class="field-value" id="statementPolicyNumber">CK524125</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Policy Effective Date</div>
+                        <div class="field-value" id="statementPolicyEffectiveDate">3/5/2025</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Policy Expiration Date</div>
+                        <div class="field-value" id="statementPolicyExpirationDate">3/5/2026</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">LOB/Plan Type</div>
+                        <div class="field-value" id="statementLOB">Dental</div>
+                    </div>
+                    <div class="matching-field">
+                        <div class="field-label">Carrier</div>
+                        <div class="field-value" id="statementCarrier">US ABC Company</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="matching-panel-actions">
+            <button class="btn btn-default" id="unmatchBtn">Unmatch</button>
+            <button class="btn btn-primary" id="confirmMatchBtn">Confirm Match</button>
+        </div>
+    </div>
+</div> 
